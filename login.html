@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canary Chat</title>
+    <meta content=" Canary Chat is a chat application that allows users to chat with each other in real-time." property="og:description">
+    <meta content="/logo.webp" property="og:image">
+    <meta content="#4b458c" data-react-helmet="true" name="theme-color">
+    <link href="/stle.css" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/themes.css" rel="stylesheet" id="lightcss">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: black;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        .container h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(50, 50, 50, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .form input {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form button {
+            background-color: #FFDF00;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: black;
+            margin-top: 20px;
+        }
+        .form a {
+            color: #FFDF00;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .wrongred {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/logo.webp" alt="Canary Chat Logo">
+        <h1>Login</h1>
+        <form class="form" action="/login" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <a href="/register">Don't have an account? Register here</a>
+        </form>
+    </div>
+    <script src="/login.js" type="module"></script>
+    <script>
+        async function check(e) {
+            e.preventDefault();
+            const instance = document.getElementById('instancein').value;
+            const username = document.getElementById('uname').value;
+            const password = document.getElementById('psw').value;
+            const response = await fetch(`${instance}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            const result = await response.json();
+            if (result.success) {
+                window.location.href = `${instance}/home`; // Redirect to the instance home
+            } else {
+                document.getElementById('wrong').textContent = 'Incorrect login credentials';
+            }
+        }
+    </script>
+</body>
+</html>
